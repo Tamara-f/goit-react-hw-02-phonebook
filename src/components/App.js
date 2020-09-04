@@ -11,10 +11,6 @@ export default class App extends Component {
     filter: '',
   };
 
-  checkSame = name => {
-    return this.state.contacts.find(contact => contact.name === name);
-  };
-
   addContact = ({ name, number }) => {
     const contact = {
       id: uuidv4(),
@@ -22,8 +18,8 @@ export default class App extends Component {
       number: number,
     };
 
-    this.checkSame(name)
-      ? alert('same name!!!')
+    this.state.contacts.find(contact => contact.name === name)
+      ? alert(`${name} is already in contacts!!!`)
       : this.setState(prevState => {
           return { contacts: [...prevState.contacts, contact] };
         });
