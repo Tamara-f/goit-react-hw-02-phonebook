@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+
 import Section from './Section';
 import ContactList from './ContactList';
 import ContactEditor from './ContactEditor';
 import Filter from './Filter';
+
 import { v4 as uuidv4 } from 'uuid';
 
 export default class App extends Component {
@@ -11,6 +13,21 @@ export default class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts) {
+      this.setState({
+        contacts: JSON.parse(savedContacts),
+      });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = ({ name, number }) => {
     const contact = {
       id: uuidv4(),
@@ -18,11 +35,14 @@ export default class App extends Component {
       number: number,
     };
 
-    this.state.contacts.find(contact => contact.name === name)
-      ? alert(`${name} is already in contacts!!!`)
-      : this.setState(prevState => {
-          return { contacts: [...prevState.contacts, contact] };
-        });
+    const UnicName = this.state.contacts.find(contact => contact.name === name);
+    if (UnicName) {
+      alert(`${name} is already in contacts!!!`);
+    } else {
+      this.setState(prevState => {
+        return { contacts: [...prevState.contacts, contact] };
+      });
+    }
   };
 
   removeContact = contactId => {
@@ -50,15 +70,15 @@ export default class App extends Component {
       <Section>
         <ContactEditor onAddContact={this.addContact} />
         <h2>Contacts</h2>
+
         {filterContacts.length > 0 && (
-          <Filter value={filter} OnChangeFilter={this.changeFilter} />
+          <Filter value={filter} onChangeFilter={this.changeFilter} />
         )}
-        {filterContacts.length > 0 && (
-          <ContactList
-            contacts={filterContacts}
-            onRemovecontact={this.removeContact}
-          />
-        )}
+
+        <ContactList
+          contacts={filterContacts}
+          onRemovecontact={this.removeContact}
+        />
       </Section>
     );
   }

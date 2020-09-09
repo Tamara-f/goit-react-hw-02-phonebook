@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Filter({ value, OnChangeFilter }) {
+export default function Filter({ value, onChangeFilter }) {
   return (
     <div>
       <span>Find name</span>
       <input
         type="text"
         value={value}
-        onChange={e => OnChangeFilter(e.target.value)}
+        onChange={({ target }) => onChangeFilter(target.value)}
       />
     </div>
   );
@@ -16,5 +16,5 @@ export default function Filter({ value, OnChangeFilter }) {
 
 Filter.propTypes = {
   value: PropTypes.string.isRequired,
-  OnChangeFilter: PropTypes.func.isRequired,
+  onChangeFilter: PropTypes.func.isRequired,
 };

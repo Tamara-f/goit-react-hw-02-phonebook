@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import ContactList from './ContactList';
 
-export default class ContactEditor extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const INIT = {
+  name: '',
+  number: '',
+};
 
-  handleChange = e => {
-    const { name, value } = e.target;
+export default class ContactEditor extends Component {
+  state = INIT;
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
     this.setState({
       [name]: value,
     });
@@ -19,7 +22,7 @@ export default class ContactEditor extends Component {
     e.preventDefault();
 
     this.props.onAddContact(this.state);
-    this.setState({ name: '', number: '' });
+    this.setState(INIT);
   };
 
   render() {

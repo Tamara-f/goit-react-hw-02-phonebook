@@ -1,19 +1,24 @@
 import React from 'react';
-import ContactListItem from './ContactListItem';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts, onRemovecontact }) => (
-  <ul>
-    {contacts.map(({ id, name, number }) => (
-      <ContactListItem
-        key={id}
-        name={name}
-        number={number}
-        onRemove={() => onRemovecontact(id)}
-      />
-    ))}
-  </ul>
-);
+import ContactListItem from './ContactListItem';
+
+const ContactList = ({ contacts, onRemovecontact }) => {
+  if (contacts.length > 0) {
+    return (
+      <ul>
+        {contacts.map(({ id, name, number }) => (
+          <ContactListItem
+            key={id}
+            name={name}
+            number={number}
+            onRemove={() => onRemovecontact(id)}
+          />
+        ))}
+      </ul>
+    );
+  } else return null;
+};
 
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
